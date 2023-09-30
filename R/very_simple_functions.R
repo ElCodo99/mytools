@@ -9,15 +9,14 @@ idx_num <- function(x) {
 }
 
 # get index of NAs
-idx_NAs <- function(x){which(x %>% is.na)}
+idx_miss <- function(x){which(x %>% is.na)}
 
 # get number of NAs
 n_na <- function(x){x %>% is.na %>% sum}
 
 # opposite of is.na
 is.not.na <- function(x) !is.na(x)
-                   
+
 # opposite of is.null
 is.not.null <- function(x) !is.null(x)
-                   
-                   
+

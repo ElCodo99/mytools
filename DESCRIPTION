@@ -3,10 +3,9 @@ Type: Package
 Title: Simple collection of functions
 Version: 0.1.0
 Author: Paul Schoppel
-Maintainer: paul@schoppel-online.de
-Description: coming soon...
+Maintainer: Paul Schoppel <paul@schoppel-online.de>
+Description: coming soon
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: 
-  dplyr
+Imports: dplyr
