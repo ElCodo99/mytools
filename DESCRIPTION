@@ -4,8 +4,11 @@ Title: Simple collection of functions
 Version: 0.1.0
 Author: Paul Schoppel
 Maintainer: Paul Schoppel <paul@schoppel-online.de>
-Description: coming soon
+Description: collection of functions with broad use-cases reducing coding effort
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: dplyr
+Imports: 
+  dplyr,
+  nortest
+RoxygenNote: 7.2.3
