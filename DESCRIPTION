@@ -4,11 +4,13 @@ Title: Simple collection of functions
 Version: 0.1.0
 Author: Paul Schoppel
 Maintainer: Paul Schoppel <paul@schoppel-online.de>
-Description: collection of functions with broad use-cases reducing coding effort
+Description: This package provides a collection of functions designed for a broad range of use-cases. The aim is to reduce coding effort in common programming and data analysis tasks.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: 
   dplyr,
-  nortest
+  nortest,
+  ggplot2,
+  methods
 RoxygenNote: 7.2.3
