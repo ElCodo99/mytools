@@ -3,6 +3,7 @@
 #' @import ggplot2
 #' @importFrom stats as.formula complete.cases median wilcox.test
 #' @importFrom utils read.csv2 write.table
+#' @importFrom jsonlite toJSON
 # @importFrom stats lm
 # @importFrom base plot hist abline
 NULL
