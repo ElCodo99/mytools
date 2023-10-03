@@ -7,24 +7,25 @@ lines of code which are programmed in a stupid or inefficient way.
 Feel free to use my library. I'm also apreciating sugestions for approvements.
 
 ## Highlight: The DynamicValuesCollector Class
-One of the cornerstone components of this library is the DynamicValuesCollector class. This class serves as a versatile and convenient way to store, retrieve, and manage metrics for various statistical models. Whether you are running simple linear regressions or complex machine learning algorithms, DynamicValuesCollector can help you keep track of how well each model is performing.
+
+One of the cornerstone components of this library is the `DynamicValuesCollector` class. This class serves as a versatile and convenient way to store, retrieve, and manage metrics for various statistical models. Whether you are running simple linear regressions or complex machine learning algorithms, `DynamicValuesCollector` can help you keep track of how well each model is performing.
 
 ### Features
-Metric Storage: Store any number of metrics (e.g., R2, RMSE, Accuracy) for each model.
 
-Batch Addition: Add metrics for multiple models at once using the add_batch method, making it highly efficient for scenarios like k-fold cross-validation or hyperparameter tuning.
-
-Feature Tracking: Alongside metrics, you can also store the features used in each model, which is particularly useful for feature selection methods like forward or backward selection.
-
-Flexible Retrieval: Retrieve metrics for a specific model or sort all models based on a particular metric using the get_metrics method.
-
-Export Capabilities: Easily export the stored metrics to CSV or JSON formats for further analysis or visualization.
+- **Metric Storage**: Store any number of metrics (e.g., R2, RMSE, Accuracy) for each model.
+- **Batch Addition**: Add metrics for multiple models at once using the `add_batch` method, making it highly efficient for scenarios like k-fold cross-validation or hyperparameter tuning.
+- **Feature Tracking**: Alongside metrics, you can also store the features used in each model, which is particularly useful for feature selection methods like forward or backward selection.
+- **Flexible Retrieval**: Retrieve metrics for a specific model or sort all models based on a particular metric using the `get_metrics` method.
+- **Export Capabilities**: Easily export the stored metrics to CSV or JSON formats for further analysis or visualization.
+- **Logging**: The class also supports logging, either to the console or to a specified log file, making it easier to track the operations performed on the collector.
 
 ### Why Use DynamicValuesCollector?
-As a statistician or data scientist, you might find yourself juggling multiple models and metrics. Especially when you are fitting a vast number of models, e.g. in simulation studies, you neeed great infrastructure handling your model parameters. This class provides a structured way to manage this complexity, making your analytical workflow more organized and efficient.
+
+As a statistician or data scientist, you might find yourself juggling multiple models and metrics. Especially when you are fitting a vast number of models, e.g., in simulation studies, you need robust infrastructure for handling your model parameters. This class provides a structured way to manage this complexity, making your analytical workflow more organized and efficient.
 
 ### Example Usage
-Here's a quick example to demonstrate how you can use DynamicValuesCollector:
+
+Here's a quick example to demonstrate how you can use `DynamicValuesCollector`:
 
 ```R
 # Initialize the collector with metric names
@@ -40,8 +41,14 @@ collector$add_batch(
 )
 
 # Retrieve metrics
-collector$get_metrics("R2")
+sorted_metrics <- collector$get_metrics("R2")
+print(sorted_metrics)
 
+# Remove a model
+collector$remove("RandomForest")
+
+# Save metrics as CSV
+collector$save_metrics("R2", "model_metrics.csv")
 ```
 
 ## Installation
