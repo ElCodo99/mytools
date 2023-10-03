@@ -12,8 +12,8 @@ One of the cornerstone components of this library is the `keepR` class. This cla
 
 ### Features
 
-* **Metric Storage**: Store any number of metrics (e.g., R2, RMSE, Accuracy) for each model.
-* **Batch Addition**: Add metrics for multiple models at once using the `add_batch` method, making it highly efficient for scenarios like k-fold cross-validation or hyperparameter tuning.
+- **Metric Storage**: Store any number of metrics (e.g., R2, RMSE, Accuracy) for each model.
+- **Batch Addition**: Add metrics for multiple models at once using the `add_batch` method, making it highly efficient for scenarios like k-fold cross-validation or hyperparameter tuning.
 - **Feature Tracking**: Alongside metrics, you can also store the features used in each model, which is particularly useful for feature selection methods like forward or backward selection.
 - **Flexible Retrieval**: Retrieve metrics for a specific model or sort all models based on a particular metric using the `get_metrics` method.
 - **Export Capabilities**: Easily export the stored metrics to CSV or JSON formats for further analysis or visualization.
