@@ -42,7 +42,7 @@ collector$add_batch(
 # Retrieve metrics
 collector$get_metrics("R2")
 
-```R
+```
 
 best regards
 
