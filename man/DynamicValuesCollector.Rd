@@ -10,12 +10,20 @@ A class for storing and retrieving various metrics for different models.
 \dontrun{
 collector <- DynamicValuesCollector$new(c("R2", "Adj_R2", "RMSE"))
 collector$add("model1", c(R2 = 0.9, Adj_R2 = 0.89, RMSE = 0.1))
-collector$display_sorted("R2")
+collector$get_metrics("R2")
 }
-Constructor
 
-Initializes an empty list to store models and sets the metric names.
+## ------------------------------------------------
+## Method `DynamicValuesCollector$add_batch`
+## ------------------------------------------------
 
+\dontrun{
+collector <- DynamicValuesCollector$new(c("R2", "Adj_R2", "RMSE"))
+collector$add_batch(
+  model_names = c("model1", "model2"),
+  metrics_list = list(c(R2 = 0.9, Adj_R2 = 0.89, RMSE = 0.1), c(R2 = 0.85, Adj_R2 = 0.84, RMSE = 0.12))
+)
+}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -31,8 +39,11 @@ Initializes an empty list to store models and sets the metric names.
 \itemize{
 \item \href{#method-DynamicValuesCollector-new}{\code{DynamicValuesCollector$new()}}
 \item \href{#method-DynamicValuesCollector-add}{\code{DynamicValuesCollector$add()}}
+\item \href{#method-DynamicValuesCollector-add_batch}{\code{DynamicValuesCollector$add_batch()}}
+\item \href{#method-DynamicValuesCollector-get_features}{\code{DynamicValuesCollector$get_features()}}
 \item \href{#method-DynamicValuesCollector-remove}{\code{DynamicValuesCollector$remove()}}
-\item \href{#method-DynamicValuesCollector-display_sorted}{\code{DynamicValuesCollector$display_sorted()}}
+\item \href{#method-DynamicValuesCollector-get_metrics}{\code{DynamicValuesCollector$get_metrics()}}
+\item \href{#method-DynamicValuesCollector-save_metrics}{\code{DynamicValuesCollector$save_metrics()}}
 \item \href{#method-DynamicValuesCollector-clone}{\code{DynamicValuesCollector$clone()}}
 }
 }
@@ -40,6 +51,7 @@ Initializes an empty list to store models and sets the metric names.
 \if{html}{\out{<a id="method-DynamicValuesCollector-new"></a>}}
 \if{latex}{\out{\hypertarget{method-DynamicValuesCollector-new}{}}}
 \subsection{Method \code{new()}}{
+Initializes an empty list to store models and sets the metric names.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DynamicValuesCollector$new(metric_names)}\if{html}{\out{</div>}}
 }
@@ -47,10 +59,7 @@ Initializes an empty list to store models and sets the metric names.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{metric_names}}{A vector of names for the metrics to be stored.
-Add a Model
-
-Adds a model along with its metrics.}
+\item{\code{metric_names}}{A vector of names for the metrics to be stored.}
 }
 \if{html}{\out{</div>}}
 }
@@ -59,8 +68,9 @@ Adds a model along with its metrics.}
 \if{html}{\out{<a id="method-DynamicValuesCollector-add"></a>}}
 \if{latex}{\out{\hypertarget{method-DynamicValuesCollector-add}{}}}
 \subsection{Method \code{add()}}{
+Adds a model along with its metrics.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DynamicValuesCollector$add(model_name, metrics)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DynamicValuesCollector$add(model_name, metrics, features = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -68,18 +78,77 @@ Adds a model along with its metrics.}
 \describe{
 \item{\code{model_name}}{The name of the model.}
 
-\item{\code{metrics}}{A named vector or list containing the metrics.
-Remove a Model
+\item{\code{metrics}}{A named vector or list containing the metrics.}
 
-Removes a model based on its name.}
+\item{\code{features}}{A named vector or list containing the metrics.}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-DynamicValuesCollector-add_batch"></a>}}
+\if{latex}{\out{\hypertarget{method-DynamicValuesCollector-add_batch}{}}}
+\subsection{Method \code{add_batch()}}{
+Adds multiple models along with their metrics in a batch.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{DynamicValuesCollector$add_batch(
+  model_names,
+  metrics_list,
+  features_list = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{model_names}}{A vector of names for the models.}
+
+\item{\code{metrics_list}}{A list of named vectors or lists containing the metrics for each model.}
+
+\item{\code{features_list}}{An optional list of named vectors or lists containing the features for each model.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{\dontrun{
+collector <- DynamicValuesCollector$new(c("R2", "Adj_R2", "RMSE"))
+collector$add_batch(
+  model_names = c("model1", "model2"),
+  metrics_list = list(c(R2 = 0.9, Adj_R2 = 0.89, RMSE = 0.1), c(R2 = 0.85, Adj_R2 = 0.84, RMSE = 0.12))
+)
+}
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-DynamicValuesCollector-get_features"></a>}}
+\if{latex}{\out{\hypertarget{method-DynamicValuesCollector-get_features}{}}}
+\subsection{Method \code{get_features()}}{
+Retrieves the features used in a specific model.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{DynamicValuesCollector$get_features(model_name)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{model_name}}{The name of the model.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector containing the features used in the model.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-DynamicValuesCollector-remove"></a>}}
 \if{latex}{\out{\hypertarget{method-DynamicValuesCollector-remove}{}}}
 \subsection{Method \code{remove()}}{
+Removes a model based on its name.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DynamicValuesCollector$remove(model_name)}\if{html}{\out{</div>}}
 }
@@ -87,20 +156,18 @@ Removes a model based on its name.}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{model_name}}{The name of the model to remove.
-Display Sorted Models
-
-Sorts and displays the models based on a specific metric.}
+\item{\code{model_name}}{The name of the model to remove.}
 }
 \if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-DynamicValuesCollector-display_sorted"></a>}}
-\if{latex}{\out{\hypertarget{method-DynamicValuesCollector-display_sorted}{}}}
-\subsection{Method \code{display_sorted()}}{
+\if{html}{\out{<a id="method-DynamicValuesCollector-get_metrics"></a>}}
+\if{latex}{\out{\hypertarget{method-DynamicValuesCollector-get_metrics}{}}}
+\subsection{Method \code{get_metrics()}}{
+Sorts and displays the models based on a specific metric.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DynamicValuesCollector$display_sorted(sort_by, as_dataframe = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DynamicValuesCollector$get_metrics(sort_by, as_dataframe = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -114,6 +181,30 @@ Sorts and displays the models based on a specific metric.}
 }
 \subsection{Returns}{
 A data frame or printed output based on the `as_dataframe` parameter.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-DynamicValuesCollector-save_metrics"></a>}}
+\if{latex}{\out{\hypertarget{method-DynamicValuesCollector-save_metrics}{}}}
+\subsection{Method \code{save_metrics()}}{
+Save metrics as csv or json based on the file extension
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{DynamicValuesCollector$save_metrics(sort_by, file_name, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sort_by}}{output sorting variable}
+
+\item{\code{file_name}}{Filename with extension (.csv or .json)}
+
+\item{\code{...}}{further arguments to mytools::write.csv.fast or toJSON}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL - saving as side effect
 }
 }
 \if{html}{\out{<hr>}}
