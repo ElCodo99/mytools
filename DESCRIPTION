@@ -12,5 +12,6 @@ Imports:
   dplyr,
   nortest,
   ggplot2,
-  methods
+  methods,
+  jsonlite
 RoxygenNote: 7.2.3
