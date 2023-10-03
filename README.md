@@ -44,6 +44,19 @@ collector$get_metrics("R2")
 
 ```
 
+## Installation
+To install the latest stable version of the mytools library directly from GitHub, you can use the devtools package. If you haven't installed devtools yet, you can install it from CRAN using the following command:
+
+```R
+install.packages("devtools")
+```
+Once devtools is installed, you can install the mytools library from its GitHub repository by running:
+```R
+devtools::install_github("ElCodo99/mytools@main")
+```
+This will fetch the latest stable version of the library from the main branch.
+
+
 best regards
 
 ElCodo99
