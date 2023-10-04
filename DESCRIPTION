@@ -13,5 +13,9 @@ Imports:
   nortest,
   ggplot2,
   methods,
-  jsonlite
+  jsonlite,
+  ranger,
+  parallel,
+  caret,
+  lsr
 RoxygenNote: 7.2.3
