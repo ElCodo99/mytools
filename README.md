@@ -34,7 +34,7 @@ collector <- keepR$new(c("R2", "RMSE"))
 # Add a single model
 collector$add(
   model_name = "Model 1",
-  metrics = c(R2 = 0.9, RMSE = 1.2),
+  metrics = c(R2 = 0.9, Adj_R2 = 0.873, RMSE = 0.6),
   features = c('income', 'age', 'sex')
 )
 
