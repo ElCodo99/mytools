@@ -8,6 +8,7 @@
 #' @importFrom ranger ranger
 #' @importFrom parallel detectCores
 #' @importFrom lsr cramersV
+#' @importFrom infotheo mutinformation entropy discretize
 # @importFrom stats lm
 # @importFrom base plot hist abline
 
