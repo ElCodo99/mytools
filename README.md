@@ -13,12 +13,12 @@ The `keepR` class is one of the cornerstone components of this library. It provi
 - **Feature Tracking**: Store features used for each model, useful for feature selection techniques.
 - **Flexible Retrieval**: Retrieve metrics using the `get_metrics` method, which supports efficient retrieval when using the `top_n` parameter (partial sorting).
 - **Specialized Retrieval**: Quickly get the highest and lowest metric values including the model where they were observed with `get_highest` and `get_lowest` methods. This query is extremely fast, because the best performing models are stored in cache.
-- **Top-N Models**: Retrieve the top n models based on a specific metric efficiently using the get_top_metrics method. If you specify `top_n` as an argument, keepR employs partial sorting, making it faster compared to manually sorting the full list afterwards.
-- **Metric Cache**: An internal cache for storing the highest and lowest values of each metric, including the model where they were observed. This cache improves the efficiency of the `get_highest` and `get_lowest` methods. While the cache is a public list and can be retrieved with $metric_cache, it is strongly recommended not to manipulate this list directly as it affects the internal workings of the class.
+- **Top-N Models**: Retrieve the top n models based on a specific metric efficiently using the get_top_metrics method. If you specify `top_n` as an argument, `keepR` employs partial sorting, making it faster compared to manually sorting the full list afterwards.
+- **Metric Cache**: An internal cache for storing the highest and lowest values of each metric, including the model where they were observed. This cache improves the efficiency of the `get_highest` and `get_lowest` methods. While the cache is a public list and can be retrieved with `$metric_cache`, it is strongly recommended not to manipulate this list directly as it affects the internal workings of the class.
 - **Export Capabilities**: The class provides with `save_metrics` the functionality to store metrics to CSV or JSON.
 - **Logging**: Supports logging to a console or a specified log file.
 
-### Why Use keepR? (Updated)
+### Why Use `keepR`?
 
 As a statistician or data scientist, managing multiple models and metrics can be cumbersome. The `keepR` class helps you organize your models and metrics efficiently. It is especially useful for simulation studies or any scenario where you need to fit multiple models.
 
@@ -27,9 +27,6 @@ As a statistician or data scientist, managing multiple models and metrics can be
 The `keepR` class features an internal cache that keeps track of the highest and lowest values for each metric. This cache is automatically updated whenever a new model is added or an existing model is removed. The caching mechanism significantly speeds up the retrieval of the highest and lowest metric values, making these operations virtually instantaneous. 
 
 ### Example Usage 
-
-Here's a simple example:
-
 ```R
 # Initialize the collector with metric names
 collector <- keepR$new(c("R2", "RMSE"))
