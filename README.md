@@ -29,7 +29,7 @@ The `keepR` class features an internal cache that keeps track of the highest and
 ### Example Usage 
 ```R
 # Initialize the collector with metric names
-collector <- keepR$new(c("R2", "RMSE"))
+collector <- keepR$new(c("R2", "Adj_R2", "RMSE"))
 
 # Add a single model
 collector$add(
@@ -38,23 +38,24 @@ collector$add(
   features = c('income', 'age', 'sex')
 )
 
+
 # Add multiple models in a batch
 collector$add_batch(
-    model_names = c("Model 2", "Model 3"),
-    metrics_list = list(
-      c(R2 = 0.85, Adj_R2 = 0.84, RMSE = 0.12),
-      c(R2 = 0.8, Adj_R2 = 0.79, RMSE = 0.13)),
-    features = list(
-        c('age', 'paidwork', 'married'),
-        c('income', 'married', 'age')
-    )
+  model_names = c("Model 2", "Model 3"),
+  metrics_list = list(
+    c(R2 = 0.85, Adj_R2 = 0.84, RMSE = 0.12),
+    c(R2 = 0.8, Adj_R2 = 0.79, RMSE = 0.13)),
+  features = list(
+    c('age', 'paidwork', 'married'),
+    c('income', 'married', 'age')
+  )
 )
 
 # Retrieve the top 2 models based on R2 using efficient partial sorting (only using partial sorting when top_n is not NULL)
 top_models <- collector$get_metrics("R2", top_n = 2)
 print(top_models)
 
-# Get the highest R2 value (very fast because value ist stored in cache, even if you have stored a million models in your keepR-instance)
+# Get the highest R2 value (very fast because value is stored in cache, even if you have stored a million models in your keepR-instance)
 highest_R2 <- collector$get_highest("R2")
 print(highest_R2)
 
