@@ -47,6 +47,40 @@ collector$add_batch(
   metrics_list = list(c(R2 = 0.9, Adj_R2 = 0.89, RMSE = 0.1), c(R2 = 0.85, Adj_R2 = 0.84, RMSE = 0.12))
 )
 }
+
+## ------------------------------------------------
+## Method `keepR$remove`
+## ------------------------------------------------
+
+\dontrun{
+collector$remove("model1")
+}
+
+## ------------------------------------------------
+## Method `keepR$get_metrics`
+## ------------------------------------------------
+
+\dontrun{
+sorted_metrics_asc <- collector$get_metrics("R2", ascending = TRUE)
+sorted_metrics_desc <- collector$get_metrics("R2", ascending = FALSE)
+top_10_models <- collector$get_metrics("R2", top_n = 10, ascending = FALSE)
+}
+
+## ------------------------------------------------
+## Method `keepR$get_highest`
+## ------------------------------------------------
+
+\dontrun{
+highest_R2 <- collector$get_highest("R2")
+}
+
+## ------------------------------------------------
+## Method `keepR$get_lowest`
+## ------------------------------------------------
+
+\dontrun{
+lowest_RMSE <- collector$get_lowest("RMSE")
+}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -54,6 +88,8 @@ collector$add_batch(
 \item{\code{models}}{A list to store models along with their metrics.}
 
 \item{\code{metric_names}}{A vector of names for the metrics to be stored.}
+
+\item{\code{metric_cache}}{List of highest and lowest values of each model (including model-name)}
 
 \item{\code{log_file}}{Optional. Name of a logfile. If nothing passed, log is printed in console}
 }
@@ -68,6 +104,9 @@ collector$add_batch(
 \item \href{#method-keepR-get_features}{\code{keepR$get_features()}}
 \item \href{#method-keepR-remove}{\code{keepR$remove()}}
 \item \href{#method-keepR-get_metrics}{\code{keepR$get_metrics()}}
+\item \href{#method-keepR-get_top_metrics}{\code{keepR$get_top_metrics()}}
+\item \href{#method-keepR-get_highest}{\code{keepR$get_highest()}}
+\item \href{#method-keepR-get_lowest}{\code{keepR$get_lowest()}}
 \item \href{#method-keepR-save_metrics}{\code{keepR$save_metrics()}}
 \item \href{#method-keepR-clone}{\code{keepR$clone()}}
 }
@@ -173,7 +212,7 @@ A vector containing the features used in the model.
 \if{html}{\out{<a id="method-keepR-remove"></a>}}
 \if{latex}{\out{\hypertarget{method-keepR-remove}{}}}
 \subsection{Method \code{remove()}}{
-Removes a model based on its name.
+Removes a model based on its name and updates the cache if necessary.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{keepR$remove(model_name)}\if{html}{\out{</div>}}
 }
@@ -185,6 +224,22 @@ Removes a model based on its name.
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Details}{
+This method removes a model and its metrics from the list of stored models.
+If the model to be removed is listed in the cache as having the highest or lowest value for any metric,
+the cache will be recalculated. Note that recalculating the cache can be resource-intensive if a large number of models are stored.
+}
+
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{\dontrun{
+collector$remove("model1")
+}
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-keepR-get_metrics"></a>}}
@@ -192,7 +247,7 @@ Removes a model based on its name.
 \subsection{Method \code{get_metrics()}}{
 Sorts and displays the models based on a specific metric.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{keepR$get_metrics(sort_by, as_dataframe = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{keepR$get_metrics(sort_by, top_n = NULL, ascending = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -200,13 +255,130 @@ Sorts and displays the models based on a specific metric.
 \describe{
 \item{\code{sort_by}}{The name of the metric to sort by.}
 
-\item{\code{as_dataframe}}{Logical, whether to return the result as a data frame. Default is TRUE.}
+\item{\code{top_n}}{The number of top models to return. If specified, the method will use \code{\link{get_top_metrics}} for more efficient sorting.}
+
+\item{\code{ascending}}{Logical, whether to sort the metrics in ascending order. Default is TRUE.}
 }
 \if{html}{\out{</div>}}
 }
-\subsection{Returns}{
-A data frame or printed output based on the `as_dataframe` parameter.
+\subsection{Details}{
+This method sorts the models based on the specified metric and returns the sorted list.
+You can control the sort order using the \code{ascending} parameter. If \code{top_n} is specified, this method will call \code{\link{get_top_metrics}}, which uses partial sorting for efficiency.
 }
+
+\subsection{Returns}{
+A data frame containing the sorted models.
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{\dontrun{
+sorted_metrics_asc <- collector$get_metrics("R2", ascending = TRUE)
+sorted_metrics_desc <- collector$get_metrics("R2", ascending = FALSE)
+top_10_models <- collector$get_metrics("R2", top_n = 10, ascending = FALSE)
+}
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-keepR-get_top_metrics"></a>}}
+\if{latex}{\out{\hypertarget{method-keepR-get_top_metrics}{}}}
+\subsection{Method \code{get_top_metrics()}}{
+Retrieves the top n models based on a specific metric using partial sorting for efficiency.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{keepR$get_top_metrics(sort_by, top_n, ascending = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sort_by}}{The name of the metric to sort by.}
+
+\item{\code{top_n}}{The number of top models to return.}
+
+\item{\code{ascending}}{Logical, whether to sort the metrics in ascending order. Default is TRUE.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+This method uses partial sorting to efficiently find the top top_n models based on the specified metric.
+}
+
+\subsection{Returns}{
+A data frame containing the top n models.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-keepR-get_highest"></a>}}
+\if{latex}{\out{\hypertarget{method-keepR-get_highest}{}}}
+\subsection{Method \code{get_highest()}}{
+Retrieves the highest value and corresponding model name for a given metric.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{keepR$get_highest(metric_name)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{metric_name}}{The name of the metric to query.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+This method queries the cache to find the highest value for the given metric and the model that has this value.
+Using the cache makes this method much more efficient than manually sorting the metrics obtained from `get_metrics`.
+}
+
+\subsection{Returns}{
+A list containing the highest value (`value`) and the corresponding model name (`model`).
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{\dontrun{
+highest_R2 <- collector$get_highest("R2")
+}
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-keepR-get_lowest"></a>}}
+\if{latex}{\out{\hypertarget{method-keepR-get_lowest}{}}}
+\subsection{Method \code{get_lowest()}}{
+Retrieves the lowest value and corresponding model name for a given metric.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{keepR$get_lowest(metric_name)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{metric_name}}{The name of the metric to query.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+This method queries the cache to find the lowest value for the given metric and the model that has this value.
+Using the cache makes this method much more efficient than manually sorting the metrics obtained from `get_metrics`.
+}
+
+\subsection{Returns}{
+A list containing the lowest value (`value`) and the corresponding model name (`model`).
+}
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{\dontrun{
+lowest_RMSE <- collector$get_lowest("RMSE")
+}
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-keepR-save_metrics"></a>}}
