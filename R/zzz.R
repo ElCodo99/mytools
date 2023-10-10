@@ -1,15 +1,14 @@
 # zzz.R
-#' @import dplyr
-#' @import ggplot2
-#' @importFrom stats as.formula complete.cases median wilcox.test
-#' @importFrom utils read.csv2 write.table
-#' @importFrom jsonlite toJSON
-#' @importFrom caret createFolds
-#' @importFrom ranger ranger
-#' @importFrom parallel detectCores
-#' @importFrom lsr cramersV
-#' @importFrom infotheo mutinformation entropy discretize
-# @importFrom stats lm
+# #' @import dplyr
+## ' @import ggplot2
+# @importFrom stats as.formula complete.cases median wilcox.test
+# @importFrom utils read.csv2 write.table
+# @importFrom jsonlite toJSON
+# @importFrom caret createFolds
+# importFrom ranger ranger
+# @importFrom parallel detectCores
+# @importFrom lsr cramersV
+# @importFrom infotheo mutinformation entropy discretize
 # @importFrom base plot hist abline
 
 NULL
